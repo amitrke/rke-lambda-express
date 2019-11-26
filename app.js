@@ -1,12 +1,20 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const app = express();
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.get('/api/info', (req, res) => {
-  res.send({ application: 'sample-app', version: '1' });
-});
-app.post('/api/v1/getback', (req, res) => {
-  res.send({ ...req.body });
-});
+const router = express.Router()
+
+app.set('view engine', 'pug')
+
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: true }))
+
+
+router.get('/', (req, res) => {
+  res.render('index')
+})
+
+app.use('/', router)
+
 //app.listen(3000, () => console.log(`Listening on: 3000`));
 module.exports = app
